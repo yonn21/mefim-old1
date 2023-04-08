@@ -1,20 +1,21 @@
-const mongoose = require('mongoose');
+const mongoose = require('mongoose')
 
-const user = new mongoose.Schema({
-    userName: { type: String, required: true, unique: true },
-    password: { type: String, required: true },
-    avatar: { type: String, },
-    coin: { type: Number, default: 0 },
-    userType: { type: Array, default: 1 },
-    fullName: { type: Object, required: true },
-    dateOfBirth: { type: Object, required: true },
-    sex: { type: String, required: true },
-    address: { type: String, required: true },
-    email: { type: String, required: true, unique: true },
-    phoneNumber: { type: String, required: false, unique: true },
-    listFollow: { type: Array, },
-    listFavorite: { type: Array, },
-    listBought: { type: Array, }
-});
+const userSchema = new mongoose.Schema({
+    user_username: { type: String, required: true, unique: true },
+    user_password: { type: String, required: true },
+    user_display_name: { type: String, required: true },
+    user_avatar: { type: String, },
+    user_email: { type: String, required: true, unique: true },
+    user_phone_number: { type: String, required: true, unique: true },
+    user_gender: { type: String, required: true },
+    user_favorite_movies: [{ type: mongoose.Schema.Types.ObjectId, ref: 'Movie' }],
+    user_followed_movies: [{ type: mongoose.Schema.Types.ObjectId, ref: 'Movie' }],
+    user_purchased_movies: [{ type: mongoose.Schema.Types.ObjectId, ref: 'Movie' }],
+    user_watched_movies: [{ type: mongoose.Schema.Types.ObjectId, ref: 'Movie' }],
+    user_rating: [{ type: mongoose.Schema.Types.ObjectId, ref: 'Movie' }],
+    user_current_balance: { type: Number },
+    user_vip_level: { type: String },
+    user_vip_expiry_date: { type: Date },
+})
 
-module.exports = mongoose.model('user', user);
+module.exports = mongoose.model('User', userSchema)

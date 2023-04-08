@@ -1,4 +1,3 @@
-tạo cấu trúc cơ sở dữ liệu của trang web xem phim có các chức năng sau:
 - admin có thể quản lý phim, người dùng, bình luận của người dùng.
 - người dùng có avatar, địa chỉ email hoặc số điện thoại, giới tính, danh sách phim yêu thích, danh sách phim theo dõi, danh sách phim đã mua, số tiền hiện tại, có chia các cấp độ vip khác nhau (mua vé vip theo tháng có thể giảm giá khi mua phim). Có các chức năng như xem phim, đánh giá phim, bình luận phim, thêm phim vào mục theo dõi, thêm phim vào mục yêu thích, nạp tiền để mua các phim không miễn phí, có chức năng stream xem phim cùng nhau và một khung chat bên cạnh.
 - phim có tên chính và tên phụ, đạo diễn (kết nối nhiều nhiều), diễn viên (kết nối nhiều nhiều), thể loại (kết nối nhiều nhiều), năm phát hành (kết nối nhiều nhiều), quốc gia (kết nối nhiều nhiều), thời lượng phim, loại phim (phim lẻ hoặc phim bộ) (kết nối nhiều nhiều), ngôn ngữ (có thể có phụ đề...) (kết nối nhiều nhiều), danh sách tập (nếu có, nếu là phim bộ), đường dẫn đến phim,  danh sách series (nếu có), đánh giá imdb, trailer, nội dung tóm tắt phim, thumbnail, ảnh bìa lớn.
@@ -80,9 +79,9 @@ tạo cấu trúc cơ sở dữ liệu của trang web xem phim có các chức 
     genre_name: tên của thể loại phim.
     genre_description: mô tả thể loại.
 
-7. Bảng "release":
-    release_year_id (PK): khóa chính của bảng, định danh duy nhất cho mỗi năm phát hành.
-    release_year: năm phát hành của phim.
+7. Bảng "year":
+    year_id (PK): khóa chính của bảng, định danh duy nhất cho mỗi năm phát hành.
+    year: năm phát hành của phim.
 
 8. Bảng "country":
     country_id (PK): khóa chính của bảng, định danh duy nhất cho mỗi quốc gia.
