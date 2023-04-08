@@ -1,0 +1,108 @@
+tạo cấu trúc cơ sở dữ liệu của trang web xem phim có các chức năng sau:
+- admin có thể quản lý phim, người dùng, bình luận của người dùng.
+- người dùng có avatar, địa chỉ email hoặc số điện thoại, giới tính, danh sách phim yêu thích, danh sách phim theo dõi, danh sách phim đã mua, số tiền hiện tại, có chia các cấp độ vip khác nhau (mua vé vip theo tháng có thể giảm giá khi mua phim). Có các chức năng như xem phim, đánh giá phim, bình luận phim, thêm phim vào mục theo dõi, thêm phim vào mục yêu thích, nạp tiền để mua các phim không miễn phí, có chức năng stream xem phim cùng nhau và một khung chat bên cạnh.
+- phim có tên chính và tên phụ, đạo diễn (kết nối nhiều nhiều), diễn viên (kết nối nhiều nhiều), thể loại (kết nối nhiều nhiều), năm phát hành (kết nối nhiều nhiều), quốc gia (kết nối nhiều nhiều), thời lượng phim, loại phim (phim lẻ hoặc phim bộ) (kết nối nhiều nhiều), ngôn ngữ (có thể có phụ đề...) (kết nối nhiều nhiều), danh sách tập (nếu có, nếu là phim bộ), đường dẫn đến phim,  danh sách series (nếu có), đánh giá imdb, trailer, nội dung tóm tắt phim, thumbnail, ảnh bìa lớn.
+- đạo diễn có tên, hình đại diện, ngày sinh, mô tả, danh sách phim (kết nối nhiều nhiều).
+- diễn viên có tên, hình đại diện, ngày sinh, mô tả, dann sách phim (kết nối nhiều nhiều).
+- thể loại kết nối nhiều nhiều với phim
+- năm phát hành kết nối nhiều nhiều với phim
+- quốc gia kết nối nhiều nhiều với phim
+- loại phim (lẻ hoặc bộ) kết nối nhiều nhiều với phim
+- ngôn ngữ kết nối nhiều nhiều với phim
+- bảng đánh giá
+- bảng bình luận
+- bảng những phim đang theo dõi (kết nối nhiều nhiều)
+- bảng những phim yêu thích (kết nối nhiều nhiều)
+
+1. Bảng "admin":
+    admin_id (PK): khóa chính của bảng, định danh duy nhất cho mỗi admin.
+    username: tên đăng nhập của admin.
+    password: mật khẩu của admin.
+    email: địa chỉ email của admin.
+    avatar: hình đại diện của admin.
+    phone_number: số điện thoại của admin.
+
+2. Bảng "user":
+    user_id (PK): khóa chính của bảng, định danh duy nhất cho mỗi người dùng.
+    username: tên đăng nhập của người dùng.
+    password: mật khẩu của người dùng.
+    email: địa chỉ email của người dùng.
+    avatar: hình đại diện của người dùng.
+    phone_number: số điện thoại của người dùng.
+    gender: giới tính của người dùng.
+    favorite_movies: danh sách phim yêu thích của người dùng (có thể lưu dưới dạng một danh sách các ID phim).
+    favorite_movies: danh sách phim theo dõi của người dùng (có thể lưu dưới dạng một danh sách các ID phim).
+    purchased_movies: danh sách phim đã mua của người dùng (có thể lưu dưới dạng một danh sách các ID phim).
+    watched_movies: danh sách phim đã xem của người dùng (có thể lưu dưới dạng danh sách các Id phim).
+    current_balance: số tiền hiện tại của người dùng.
+    vip_level: cấp độ VIP của người dùng.
+    vip_expiry_date: ngày hết hạn cấp độ VIP của người dùng.
+    created_at: thời gian tạo tài khoản của người dùng.
+    updated_at: thời gian cập nhật thông tin của người dùng.
+
+3. Bảng "movie":
+    movie_id (PK): khóa chính của bảng, định danh duy nhất cho mỗi phim.
+    main_title: tên chính của phim.
+    sub_title: tên phụ của phim.
+    directors: danh sách đạo diễn của phim (kết nối nhiều-nhiều với bảng director).
+    actors: danh sách diễn viên của phim (kết nối nhiều-nhiều với bảng actor).
+    genres: danh sách thể loại của phim (kết nối nhiều-nhiều với bảng genre).
+    release_year: năm phát hành của phim.
+    countries: quốc gia (kết nối nhiều-nhiều với bảng country).
+    duration: thời lượng của phim.
+    type: loại phim (phim lẻ hoặc phim bộ).
+    languages: danh sách ngôn ngữ của phim (kết nối nhiều-nhiều với bảng language).
+    episodes: đường dẫn đến danh sách tập của phim (nếu là phim bộ).
+    movie_url: đường dẫn đến phim (nếu là phim lẻ).
+    series: danh sách series của phim (nếu có).
+    imdb_rating: đánh giá IMDb của phim.
+    trailer: đường dẫn trailer của phim.
+    summary: nội dung tóm tắt của phim.
+    thumbnail: đường dẫn đến hình ảnh thu nhỏ của phim.
+    cover_image: đường dẫn đến ảnh bìa lớn của phim.
+
+4. Bảng "director"
+    director_id (PK): khóa chính của bảng, định danh duy nhất cho mỗi đạo diễn.
+    director_name: tên của đạo diễn.
+    director_avatar: hình đại diện của đạo diễn.
+    director_birthdate: ngày sinh của đạo diễn.
+    director_description: mô tả về đạo diễn.
+
+5. Bảng "actor"
+    actor_id (PK): khóa chính của bảng, định danh duy nhất cho mỗi diễn viên.
+    actor_name: tên diễn viên của phim.
+    actor_avatar: hình đại diện của diễn viên.
+    actor_birthdate: ngày sinh của diễn viên.
+    actor_description: mô tả về diễn viên.
+
+6. Bảng "genre":
+    genre_id (PK): khóa chính của bảng, định danh duy nhất cho mỗi thể loại.
+    genre_name: tên của thể loại phim.
+    genre_description: mô tả thể loại.
+
+7. Bảng "release":
+    release_year_id (PK): khóa chính của bảng, định danh duy nhất cho mỗi năm phát hành.
+    release_year: năm phát hành của phim.
+
+8. Bảng "country":
+    country_id (PK): khóa chính của bảng, định danh duy nhất cho mỗi quốc gia.
+    country_name: tên của quốc gia.
+
+9. Bảng "language":
+    language_id (PK): khóa chính của bảng, định danh duy nhất cho mỗi ngôn ngữ.
+    language_name: tên của ngôn ngữ.
+
+10. Bảng "comment":
+    comment_id (PK): khóa chính của bảng, định danh duy nhất cho mỗi bình luận.
+    movie_id (FK): khóa ngoại liên kết với bảng "movie".
+    user_id (FK): khóa ngoại liên kết với bảng "user".
+    comment_content: nội dung của bình luận.
+    comment_date: ngày đăng bình luận.
+
+11. Bảng "rating":
+    rating_id (PK): khóa chính của bảng, định danh duy nhất cho mỗi đánh giá.
+    movie_id (FK): khóa ngoại liên kết với bảng "movie".
+    user_id (FK): khóa ngoại liên kết với bảng "user".
+    rating_value: giá trị đánh giá của phim (từ 1 đến 5).
+    rating_date: ngày đánh giá.
+    rating_content: nội dung đánh giá.
