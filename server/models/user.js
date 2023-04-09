@@ -15,7 +15,7 @@ const userSchema = new mongoose.Schema({
     user_rating: [{ type: mongoose.Schema.Types.ObjectId, ref: 'Movie' }],
     user_comment: [{ type: mongoose.Schema.Types.ObjectId, ref: 'Movie' }],
     user_current_balance: { type: Number },
-    user_vip_level: { type: String },
+    user_vip_level: { type: Number },
     user_vip_expiry_date: { type: Date },
 })
 
