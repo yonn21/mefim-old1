@@ -1,6 +1,6 @@
 const mongoose = require('mongoose')
 
-const movieSchema = new mongoose.Schema({
+const movie = new mongoose.Schema({
     primary_title: String,
     secondary_title: String,
     directors: Array,
@@ -22,6 +22,6 @@ const movieSchema = new mongoose.Schema({
     views_month: Number,
     views_year: Number,
     views_all: Number,
-})
+}, { versionKey: null })
 
-module.exports = mongoose.model('Movie', movieSchema)
+module.exports = mongoose.model('movies', movie)

@@ -1,10 +1,10 @@
 const mongoose = require('mongoose')
 
-const ratingSchema = new mongoose.Schema({
+const rating = new mongoose.Schema({
     rating_level: Number,
     rating_users: Array,
     rating_movies: Array,
     rating_date: Date,
-})
+}, { versionKey: null })
 
-module.exports = mongoose.model('Rating', ratingSchema)
+module.exports = mongoose.model('ratings', rating)

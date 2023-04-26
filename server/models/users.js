@@ -1,6 +1,6 @@
 const mongoose = require('mongoose')
 
-const userSchema = new mongoose.Schema({
+const user = new mongoose.Schema({
     loginInformation: Object,
     user_email: String,
     user_phoneNumber: String,
@@ -16,6 +16,6 @@ const userSchema = new mongoose.Schema({
     user_currentBalance: Number,
     user_vipLevel: Number,
     user_vipExpiryDate: Date,
-})
+}, { versionKey: null })
 
-module.exports = mongoose.model('User', userSchema)
+module.exports = mongoose.model('users', user)
