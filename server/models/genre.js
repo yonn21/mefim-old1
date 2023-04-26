@@ -1,9 +1,9 @@
 const mongoose = require('mongoose')
 
 const genreSchema = new mongoose.Schema({
-    genre_name: { type: String },
-    genre_description: { type: String, },
-    genre_movies: [{ type: mongoose.Schema.Types.ObjectId, ref: 'Movie' }],
+    genre_name: String,
+    genre_description: String,
+    genre_movies: Array,
 })
 
 module.exports = mongoose.model('Genre', genreSchema)

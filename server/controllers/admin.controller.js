@@ -1,24 +1,32 @@
 const adminModel = require('../models/admin')
-const actorModel = require('../models/actor');
-const movieModel = require('../models/movie');
-const directorModel = require('../models/director');
-const genreModel = require('../models/genre');
-const userModel = require('../models/user');
+const movieModel = require('../models/movie')
 
 class AdminController {
-    async getLoginPage(req, res, next) {
-        try {
-            res.render("login", { message: req.flash("error") });
-        } catch (error) {
-            next(error);
+
+    getLoginPage(req, res, next) {
+        res.render('login', { message: req.flash('error') })
+    }
+
+    getDashboardPage(req, res, next) {
+        if (req.isAuthenticated()) {
+            movieModel.find({}, (err, movieResult) => {
+                adminModel.findOne(
+                    { 'admin_loginInformation.admin_username': req.session.passport.admin.admin_username },
+                    (err, adminResult) => {
+                        res.render('dashboard', {
+                            message: req.flash('success'),
+                            admin: adminResult,
+                            movies: movieResult,
+                        })
+                    }
+                )
+            })
+        } else {
+            res.redirect('/admin/login')
         }
     }
 
-    async getDashboardPage(req, res, next) {
-
-    }
-
-    async getMovieManagerAtPage(req, res, next) {
+    getMovieManagerAtPage(req, res, next) {
 
     }
 }

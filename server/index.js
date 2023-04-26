@@ -33,17 +33,20 @@ app.use(flash())
 
 passport.use(
     'admin-local',
-    new LocalStrategy(function (userName, password, done) {
+    new LocalStrategy(function (admin_username, admin_password, done) {
         adminModel.findOne(
-            { 'admin_userName': userName },
-            function (err, user) {
+            { 'admin_loginInformation.admin_username': admin_username },
+            function (err, admin) {
                 if (err) {
                     return done(err)
                 }
-                if (!user) {
-                    return done(null, false, { message: 'Tài khoản này không tồn tại' })
+                if (!admin) {
+                    return done(null, false, { message: 'Sai tên đăng nhập hoặc mật khẩu' })
                 }
-                if (user.admin_pass)
+                if (admin.admin_loginInformation.admin_password !== admin_password) {
+                    return done(null, false, { message: 'Sai tên tài khoản hoặc mật khẩu!' });
+                }
+                return done(null, admin, { message: 'Đăng nhập thành công!' });
             }
         )
     })
