@@ -1,6 +1,6 @@
 const mongoose = require('mongoose')
 
-const adminSchema = new mongoose.Schema({
+const admin = new mongoose.Schema({
     loginInformation: Object,
     admin_email: String,
     admin_phoneNumber: String,
@@ -8,4 +8,4 @@ const adminSchema = new mongoose.Schema({
     admin_level: Number,
 }, { versionKey: null })
 
-module.exports = mongoose.model('admin', adminSchema)
+module.exports = mongoose.model('admins', admin)

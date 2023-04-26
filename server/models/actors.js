@@ -1,11 +1,11 @@
 const mongoose = require('mongoose')
 
-const actorSchema = new mongoose.Schema({
+const actor = new mongoose.Schema({
     actor_name: String,
     actor_avatar: String,
     actor_dateOfBirth: Date,
     actor_description: String,
     actor_movies: Array,
-})
+}, { versionKey: null })
 
-module.exports = mongoose.model('Actor', actorSchema)
+module.exports = mongoose.model('actors', actor)
