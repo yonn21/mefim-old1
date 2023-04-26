@@ -17,8 +17,8 @@ router.post('/login', passport.authenticate('admin-local', {
 router.get('/dashboard/logout', adminController.getLogout)
 
 // GET Dashboard, Pagination
-router.get('/dashboard/products-manager/:page', adminController.getProductManagerAtPage)
-router.get('/dashboard/products-manager/', adminController.getProductManagerPage)
 router.get('/dashboard', adminController.getDashboardPage)
+//router.get('/dashboard/products-manager/', adminController.getProductManagerPage)
+//router.get('/dashboard/products-manager/:page', adminController.getProductManagerAtPage)
 
 module.exports = router

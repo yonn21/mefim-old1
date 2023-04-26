@@ -1,3 +1,6 @@
+const path = require('path')
+const view_path = path.join(__dirname, '../views')
+
 const actor = require('../models/actors')
 const admin = require('../models/admins')
 const comment = require('../models/comments')
@@ -10,7 +13,7 @@ const user = require('../models/users')
 class AdminController {
 
     getLoginPage(req, res, next) {
-        res.render('login', { message: req.flash('error') })
+        res.render(path.join(view_path, 'login'), { message: req.flash('error') })
     }
 
     getLogout(req, res, next) {
@@ -22,9 +25,9 @@ class AdminController {
         if (req.isAuthenticated()) {
             movie.find({}, (err, movieResult) => {
                 admin.findOne(
-                    { 'loginInformation.userName': req.session.passport.user.username },
+                    { 'loginInformation.username': req.session.passport.user.username },
                     (err, adminResult) => {
-                        res.render('dashboard', {
+                        res.render(path.join(view_path, 'dashboard'), {
                             message: req.flash('success'),
                             admin: adminResult,
                             movies: movieResult,
@@ -38,7 +41,32 @@ class AdminController {
     }
 
     getMovieManagerAtPage(req, res, next) {
-
+        if (req.isAuthenticated()) {
+            var numberItemPerpage = 12;
+            var page = req.params.page;
+            product.find({}, (err, productResult) => {
+                admin.findOne(
+                    { "loginInformation.userName": req.session.passport.user.username },
+                    (err, resultCustomer) => {
+                        supplier.find({}, (err, supplierResult) => {
+                            type.find({}, (err, typeResult) => {
+                                res.render("products-manager", {
+                                    products: productResult,
+                                    customer: resultCustomer,
+                                    types: typeResult,
+                                    suppliers: supplierResult,
+                                    message: req.flash("success"),
+                                    page: page,
+                                    numberItemPerpage: numberItemPerpage,
+                                });
+                            });
+                        });
+                    }
+                );
+            });
+        } else {
+            res.redirect("/admin/login");
+        }
     }
 }
 
