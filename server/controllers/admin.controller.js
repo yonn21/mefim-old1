@@ -1,20 +1,30 @@
-const path = require('path')
-const adminModel = require('../models/admin')
-const movieModel = require('../models/movie')
+const actor = require('../models/actors')
+const admin = require('../models/admins')
+const comment = require('../models/comments')
+const director = require('../models/directors')
+const genre = require('../models/genres')
+const movie = require('../models/movies')
+const rating = require('../models/ratings')
+const user = require('../models/users')
 
 class AdminController {
 
     getLoginPage(req, res, next) {
-        res.render(path.join(__dirname, '../views/login'), { message: req.flash('error') })
+        res.render('login', { message: req.flash('error') })
+    }
+
+    getLogout(req, res, next) {
+        req.logout();
+        res.redirect('/admin/login');
     }
 
     getDashboardPage(req, res, next) {
         if (req.isAuthenticated()) {
-            movieModel.find({}, (err, movieResult) => {
-                adminModel.findOne(
-                    { 'loginInformation.username': req.session.passport.user.username },
+            movie.find({}, (err, movieResult) => {
+                admin.findOne(
+                    { 'loginInformation.userName': req.session.passport.user.username },
                     (err, adminResult) => {
-                        res.render(path.join(__dirname, '../views/dashboard'), {
+                        res.render('dashboard', {
                             message: req.flash('success'),
                             admin: adminResult,
                             movies: movieResult,
