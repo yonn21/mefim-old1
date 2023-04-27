@@ -11,6 +11,7 @@ const movie = new mongoose.Schema({
     duration: String,
     type: String,
     languages: String,
+    type_sub: Array,
     trailer: String,
     episodes: Array,
     summary: String,

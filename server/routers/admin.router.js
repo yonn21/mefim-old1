@@ -6,19 +6,21 @@ const mkdirp = require('mkdirp')
 const adminController = require('../controllers/admin.controller')
 
 // Login
-router.get('/login', adminController.getLoginPage)
-router.post('/login', passport.authenticate('admin-local', {
-    failureRedirect: '/admin/login',
+router.get('/dang-nhap', adminController.getLoginPage)
+router.post('/dang-nhap', passport.authenticate('admin-local', {
+    failureRedirect: '/admin/dang-nhap',
     successFlash: true,
     failureFlash: true
 }), adminController.getDashboardPage)
 
 // Logout
-router.get('/dashboard/logout', adminController.getLogout)
+router.get('/tong-quan/dang-xuat', adminController.getLogout)
 
-// GET Dashboard, Pagination
-router.get('/dashboard', adminController.getDashboardPage)
-//router.get('/dashboard/products-manager/', adminController.getProductManagerPage)
-//router.get('/dashboard/products-manager/:page', adminController.getProductManagerAtPage)
+// Dashboard
+router.get('/tong-quan', adminController.getDashboardPage)
+
+// Movie manager
+router.get('/quan-ly-phim/trang-1', adminController.getMovieManagerPage);
+router.get('/quan-ly-phim/trang-:page', adminController.getMovieManagerAtPage);
 
 module.exports = router

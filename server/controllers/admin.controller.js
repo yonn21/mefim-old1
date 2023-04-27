@@ -1,33 +1,33 @@
 const path = require('path')
 const view_path = path.join(__dirname, '../views')
 
-const actor = require('../models/actors')
-const admin = require('../models/admins')
-const comment = require('../models/comments')
-const director = require('../models/directors')
-const genre = require('../models/genres')
-const movie = require('../models/movies')
-const rating = require('../models/ratings')
-const user = require('../models/users')
+const actors = require('../models/actors')
+const admins = require('../models/admins')
+const comments = require('../models/comments')
+const directors = require('../models/directors')
+const genres = require('../models/genres')
+const movies = require('../models/movies')
+const ratings = require('../models/ratings')
+const users = require('../models/users')
 
 class AdminController {
 
     getLoginPage(req, res, next) {
-        res.render(path.join(view_path, 'login'), { message: req.flash('error') })
+        res.render(path.join(view_path, 'dang-nhap'), { message: req.flash('error') })
     }
 
     getLogout(req, res, next) {
-        req.logout();
-        res.redirect('/admin/login');
+        req.logout()
+        res.redirect('/admin/dang-nhap')
     }
 
     getDashboardPage(req, res, next) {
         if (req.isAuthenticated()) {
-            movie.find({}, (err, movieResult) => {
-                admin.findOne(
+            movies.find({}, (err, movieResult) => {
+                admins.findOne(
                     { 'loginInformation.username': req.session.passport.user.username },
                     (err, adminResult) => {
-                        res.render(path.join(view_path, 'dashboard'), {
+                        res.render(path.join(view_path, 'tong-quan'), {
                             message: req.flash('success'),
                             admin: adminResult,
                             movies: movieResult,
@@ -36,36 +36,82 @@ class AdminController {
                 )
             })
         } else {
-            res.redirect('/admin/login')
+            res.redirect('/admin/dang-nhap')
+        }
+    }
+
+    getMovieManagerPage(req, res, next) {
+        if (req.isAuthenticated()) {
+            var numberItemPerPage = 12;
+            movies.find({}, (err, movieResult) => {
+                admins.findOne(
+                    { 'loginInformation.username': req.session.passport.user.username },
+                    (err, adminResult) => {
+                        directors.find({}, (err, directorResult) => {
+                            actors.find({}, (err, actorResult) => {
+                                genres.find({}, (err, genreResult) => {
+                                    ratings.find({}, (err, ratingResult) => {
+                                        comments.find({}, (err, commentResult) => {
+                                            res.render("quan-ly-phim", {
+                                                message: req.flash("success"),
+                                                page: 1,
+                                                numberItemPerPage: numberItemPerPage,
+                                                admin: adminResult,
+                                                movies: movieResult,
+                                                directors: directorResult,
+                                                actors: actorResult,
+                                                genres: genreResult,
+                                                ratings: ratingResult,
+                                                comments: commentResult,
+                                            })
+                                        })
+                                    })
+                                })
+                            })
+                        })
+                    }
+                )
+            })
+        } else {
+            res.redirect("/admin/login");
         }
     }
 
     getMovieManagerAtPage(req, res, next) {
         if (req.isAuthenticated()) {
-            var numberItemPerpage = 12;
-            var page = req.params.page;
-            product.find({}, (err, productResult) => {
-                admin.findOne(
-                    { "loginInformation.userName": req.session.passport.user.username },
-                    (err, resultCustomer) => {
-                        supplier.find({}, (err, supplierResult) => {
-                            type.find({}, (err, typeResult) => {
-                                res.render("products-manager", {
-                                    products: productResult,
-                                    customer: resultCustomer,
-                                    types: typeResult,
-                                    suppliers: supplierResult,
-                                    message: req.flash("success"),
-                                    page: page,
-                                    numberItemPerpage: numberItemPerpage,
-                                });
-                            });
-                        });
+            var numberItemPerPage = 12
+            var page = req.params.page
+            movies.find({}, (err, movieResult) => {
+                admins.findOne(
+                    { 'loginInformation.username': req.session.passport.user.username },
+                    (err, adminResult) => {
+                        directors.find({}, (err, directorResult) => {
+                            actors.find({}, (err, actorResult) => {
+                                genres.find({}, (err, genreResult) => {
+                                    ratings.find({}, (err, ratingResult) => {
+                                        comments.find({}, (err, commentResult) => {
+                                            res.render("quan-ly-phim", {
+                                                message: req.flash("success"),
+                                                page: page,
+                                                numberItemPerPage: numberItemPerPage,
+                                                admin: adminResult,
+                                                movies: movieResult,
+                                                directors: directorResult,
+                                                actors: actorResult,
+                                                genres: genreResult,
+                                                ratings: ratingResult,
+                                                comments: commentResult,
+                                            })
+                                        })
+                                    })
+                                })
+                            })
+                        })
                     }
-                );
-            });
+                )
+            })
         } else {
-            res.redirect("/admin/login");
+            res.redirect('/admin/dang-nhap')
         }
     }
 }
