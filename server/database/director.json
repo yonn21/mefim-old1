@@ -1,0 +1,11 @@
+[
+    {
+        "_id": {
+            "$oid": "6449750415a984cbc91db81a"
+        },
+        "director_name": "Nguyễn Adam",
+        "director_thumbnail": "https://upload.wikimedia.org/wikipedia/vi/5/52/Benny_Chan_Muk-sing.jpg",
+        "director_description": "Đây là đạo diễn test",
+        "director_movies": []
+    }
+]

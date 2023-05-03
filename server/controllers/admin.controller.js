@@ -40,9 +40,10 @@ class AdminController {
         }
     }
 
+    // Movie manager
     getMovieManagerPage(req, res, next) {
         if (req.isAuthenticated()) {
-            var numberItemPerPage = 12;
+            var numberItemPerPage = 12
             movies.find({}, (err, movieResult) => {
                 admins.findOne(
                     { 'loginInformation.username': req.session.passport.user.username },
@@ -52,8 +53,8 @@ class AdminController {
                                 genres.find({}, (err, genreResult) => {
                                     ratings.find({}, (err, ratingResult) => {
                                         comments.find({}, (err, commentResult) => {
-                                            res.render("quan-ly-phim", {
-                                                message: req.flash("success"),
+                                            res.render('quan-ly-phim', {
+                                                message: req.flash('success'),
                                                 page: 1,
                                                 numberItemPerPage: numberItemPerPage,
                                                 admin: adminResult,
@@ -73,7 +74,7 @@ class AdminController {
                 )
             })
         } else {
-            res.redirect("/admin/login");
+            res.redirect('/admin/dang-nhap')
         }
     }
 
@@ -90,8 +91,8 @@ class AdminController {
                                 genres.find({}, (err, genreResult) => {
                                     ratings.find({}, (err, ratingResult) => {
                                         comments.find({}, (err, commentResult) => {
-                                            res.render("quan-ly-phim", {
-                                                message: req.flash("success"),
+                                            res.render('quan-ly-phim', {
+                                                message: req.flash('success'),
                                                 page: page,
                                                 numberItemPerPage: numberItemPerPage,
                                                 admin: adminResult,
@@ -112,6 +113,144 @@ class AdminController {
             })
         } else {
             res.redirect('/admin/dang-nhap')
+        }
+    }
+
+    // Director manager
+    getDirectorManagerPage(req, res, next) {
+        if (req.isAuthenticated()) {
+            var numberItemPerPage = 12
+            directors.find({}, (err, directorResult) => {
+                admins.findOne(
+                    { 'loginInformation.username': req.session.passport.user.username },
+                    (err, adminResult) => {
+                        movies.find({}, (err, movieResult) => {
+                            res.render(path.join(view_path, 'quan-ly-dao-dien'), {
+                                message: req.flash('success'),
+                                page: 1,
+                                numberItemPerPage: numberItemPerPage,
+                                admin: adminResult,
+                                movies: movieResult,
+                                directors: directorResult,
+                            })
+                        })
+                    }
+                )
+            })
+        } else {
+            res.redirect('/admin/dang-nhap')
+        }
+    }
+
+    getDirectorManagerAtPage(req, res, next) {
+        if (req.isAuthenticated()) {
+            var numberItemPerPage = 12
+            var page = req.params.page
+            directors.find({}, (err, directorResult) => {
+                admins.findOne(
+                    { 'loginInformation.username': req.session.passport.user.username },
+                    (err, adminResult) => {
+                        movies.find({}, (err, movieResult) => {
+                            res.render('quan-ly-dao-dien', {
+                                message: req.flash('success'),
+                                page: page,
+                                numberItemPerPage: numberItemPerPage,
+                                admin: adminResult,
+                                movies: movieResult,
+                                directors: directorResult,
+                            })
+                        })
+                    }
+                )
+            })
+        } else {
+            res.redirect('/admin/dang-nhap')
+        }
+    }
+
+    getAddDirectorPage(req, res, next) {
+        if (req.isAuthenticated()) {
+            admin.findOne({ 'loginInformation.username': req.session.passport.user.username }, (err, adminResult) => {
+                res.render('add-categories', { customer: adminResult })
+            })
+        } else {
+            res.redirect('/admin/login')
+        }
+    }
+
+    postAddDirector(req, res, next) {
+        if (req.isAuthenticated()) {
+            var data = {
+                'typeName': req.body.name,
+                'thumbnail': `/${req.file.path}`,
+                'status': true
+            }
+            var newCategories = new type(data)
+            newCategories.save()
+                .then(() => {
+                    req.flash('success', 'Thêm danh mục thành công!')
+                    res.redirect('/admin/dashboard/categories-manager/')
+                })
+                .catch((err) => {
+                    console.log(err)
+                    req.flash('error', 'Thêm danh mục không thành công! Có lỗi xảy ra!')
+                })
+        } else {
+            res.redirect('/admin/login')
+        }
+    }
+    getUpdateDirectorPage(req, res, next) {
+        if (req.isAuthenticated()) {
+            var id = req.params.id
+            type.findOne({ _id: id }, (err, typeResult) => {
+                admin.findOne({ 'loginInformation.username': req.session.passport.user.username }, (err, adminResult) => {
+                    res.render('update-categories', { type: typeResult, customer: adminResult })
+                })
+            })
+        } else {
+            res.redirect('/admin/login')
+        }
+    }
+    postUpdateDirectorPage(req, res, next) {
+        if (req.isAuthenticated()) {
+            var id = req.params.id
+            type.findOne({ _id: id }, (err, typeResult) => {
+                var data = {
+                    typeName: req.body.name,
+                    thumbnail: req.file ? `/${req.file.path}` : typeResult.thumbnail
+                }
+                type
+                    .findOneAndUpdate({ _id: id }, data, { new: true })
+                    .then(() => {
+                        req.flash('success', 'Cập nhật thông tin danh mục thành công!')
+                        res.redirect('/admin/dashboard/categories-manager')
+                    })
+                    .catch((err) => {
+                        req.flash(
+                            'error',
+                            'Cập nhật thông tin danh mục không thành công! Có lỗi xảy ra!'
+                        )
+                        next()
+                    })
+            })
+        } else {
+            res.redirect('/admin/login')
+        }
+    }
+    getDeleteDirectorInfo(req, res, next) {
+        if (req.isAuthenticated()) {
+            var id = req.params.id
+            type.findOneAndRemove({ _id: id }, (err, result) => {
+                if (err) {
+                    console.log(err)
+                    req.flash('error', 'Xóa danh mục không thành công! Có lỗi xảy ra!')
+                    next()
+                }
+                req.flash('success', 'Xóa danh mục thành công!')
+                res.redirect('/admin/dashboard/categories-manager')
+            })
+        } else {
+            res.redirect('/admin/login')
         }
     }
 }

@@ -55,15 +55,13 @@ movie:
 
 director:
     director_name: String,
-    director_avatar: String,
-    director_dateOfBirth: Date,
+    director_thumbnail: String,
     director_description: String,
     director_movies: Array,
 
 actor:
     actor_name: String,
-    actor_avatar: String,
-    actor_dateOfBirth: Date,
+    actor_thumbnail: String,
     actor_description: String,
     actor_movies: Array,
 

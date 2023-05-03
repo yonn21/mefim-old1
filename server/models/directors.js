@@ -2,8 +2,7 @@ const mongoose = require('mongoose')
 
 const director = new mongoose.Schema({
     director_name: String,
-    director_avatar: String,
-    director_dateOfBirth: Date,
+    director_thumbnail: String,
     director_description: String,
     director_movies: Array,
 }, { versionKey: null })
